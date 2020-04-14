@@ -19,7 +19,7 @@ Claudie-Maude Canuel
     dim(hawai) # Visualiser les dimensions de la matrice: il y a 526 observations
     summary(hawai) # Visualiser rapidement l'étendu des données
 
-### 3. Créer une série temporelle du CO2
+### 3. Créer une série temporelle du CO<sup>2</sup>
 
     # Générer une série temporelle
     hawai_ts <- ts(hawai %>%
@@ -70,7 +70,7 @@ Le modèle obtenu est un modèle ETS(M,Ad,M). Cela signifie que le type d'erreur
 
 L'erreur moyenne absolue échelonnée (MASE) est relativement faible pour la partie entrainement (0.202144) alors qu'elle s'éloigne considérablement de 0 pour la partie test (4.216469), ce qui confirme nos observations quant à la mauvaise performance du modèle au-delà de la partie entrainement.
 
-Avec le graphique de l'autocorrélation, on peut remarquer que les résidus semblement structurés, ce qui compromet la validité du modèle. Le Ljung-Box test indique une *p-value* de 1.34e-08, ce qui rejette l'hypothèse que les résidus forment un bruit blanc. Il semble donc y avoir une tendance dans les résidus qui n'est pas prise en compte par le modèle ETS(M,Ad,M). Cela est causé par trois points qui vont au-delà de la zone de signifiance (seuil de 0.05) dans le graphique de l'autocorrélation.
+Avec le graphique de l'autocorrélation, on peut remarquer que les résidus semblement structurés, ce qui compromet la validité du modèle. Le Ljung-Box test indique une *p-value* de 1.34e<sup>-08</sup>, ce qui rejette l'hypothèse que les résidus forment un bruit blanc. Il semble donc y avoir une tendance dans les résidus qui n'est pas prise en compte par le modèle ETS(M,Ad,M). Cela est causé par trois points qui vont au-delà de la zone de signifiance (seuil de 0.05) dans le graphique de l'autocorrélation.
 
 De plus, l'histogramme montre que les résidus semblent distribués selon une distribution normale. Toutefois, il pourrait en être autrement. L'amplitude de la «cloche» est assez grande et nous pouvons remarquer la présence de valeurs aberrantes de part de d'autre de la courbe. Il importe de tester la distribution des résidus.
 
@@ -79,7 +79,7 @@ De plus, l'histogramme montre que les résidus semblent distribués selon une di
 
     kurtosis(residuals(hawai_ets1), na.rm = TRUE) 
 
-Effectivement, les tests précédents indiquent que les résidus ne sont pas distribués selon une une distribution normale. Le test de Shapiro-Wilk donne une p-value significative (3.903e-07) rejetant la normalité, alors que le test de Kurtosis donne une valeur de 2.992117, bien supérieure à 0. Cela qui indique la possibilité d'une non validité des intervalles prévisionnels.
+Effectivement, les tests précédents indiquent que les résidus ne sont pas distribués selon une une distribution normale. Le test de Shapiro-Wilk donne une p-value significative (3.903e<sup>-07</sup>) rejetant la normalité, alors que le test de Kurtosis donne une valeur de 2.992117, bien supérieure à 0. Cela qui indique la possibilité d'une non validité des intervalles prévisionnels.
 
 Je vais maintenant générer un second modèle ETS sans adoucissement.
 
@@ -102,7 +102,7 @@ Nous obtenons ainsi un modèle ETS(M,A,A). Cela signifie que le type d'erreur es
 
 La MASE est semblable pour la partie entrainement (0.2054700), alors qu'elle s'approche beaucoup plus de 0 pour la partie test (0.6165975), ce qui confirme nos observations quant à la meilleure performance de ce modèle.
 
-Néanmoins, il semble encore y avoir une structure dans les résidus qui n'est pas prise en compte par le modèle. Le test de Ljung-Box a une p-value significative (1.398e-09), ce qui appui cette hypothèse. Cela est clairement visible sur le graphique d'autocorrélation des résidus, qui montre une structure des résidus davantage cyclique, alors que 4 points vont au-delà du seuil de 0.05. Ce résultat pourrait expliquer le choix du modèle ETS initial.
+Néanmoins, il semble encore y avoir une structure dans les résidus qui n'est pas prise en compte par le modèle. Le test de Ljung-Box a une p-value significative (1.398e<sup>-09</sup>), ce qui appui cette hypothèse. Cela est clairement visible sur le graphique d'autocorrélation des résidus, qui montre une structure des résidus davantage cyclique, alors que 4 points vont au-delà du seuil de 0.05. Ce résultat pourrait expliquer le choix du modèle ETS initial.
 
 L'histogramme montre encore une fois une distribution des résidus qui semble normale, mais avec quelques valeurs aberrantes.
 
@@ -111,12 +111,12 @@ L'histogramme montre encore une fois une distribution des résidus qui semble no
 
     kurtosis(residuals(hawai_ets2), na.rm = TRUE)
 
-Le test de Shapiro-Wilk indique une p-value de 2.41e-06 alors que le test de Kurtosis montre une valeur de 2.685623, ce qui indique que les résidus ne suivent finalement pas une distribution normale, tout comme pour le modèle précédent. Cela indique que les intervalles prévisionnels ne sont probablement pas valides. Cela n'affecte toutefois pas la validité du modèle.
+Le test de Shapiro-Wilk indique une p-value de 2.41e<sup>-06</sup> alors que le test de Kurtosis montre une valeur de 2.685623, ce qui indique que les résidus ne suivent finalement pas une distribution normale, tout comme pour le modèle précédent. Cela indique que les intervalles prévisionnels ne sont probablement pas valides. Cela n'affecte toutefois pas la validité du modèle.
 
 ### 7. Conclusion
 
 Le modèle ETS(M,Ad,M) généré, même s'il utilise une méthode optimisée, n'est pas valide puisqu'il s'éloigne considérablement de la réalité. En retirant l'adoucissement de la tendance, il est possible d'obtenir un modèle ETS(M,A,A) qui semble plus valide. En effet, malgré qu'il soit peu probable que ses résidus forment un bruit blanc, l'analyse graphique présentait une grande similitude entre les valeurs test et les valeurs prévisionnelles. De plus, il présentait une MASE s'approchant de 0 pour les deux parties, entrainement et test.
 
-Le dernier modèle concorde également avec la documentation sur la crise climatique actuelle, dont le principal coupable serait l'augmentation continuelle du CO2 atmosphérique. L'augmentation continuelle du CO2 atmosphérique représente une tendance générale bien documentée. Un modèle qui adoucit cette tendance serait vraisemblablement erroné.
+Le dernier modèle concorde également avec la documentation sur la crise climatique actuelle, dont le principal coupable serait l'augmentation continuelle du CO<sup>2</sup> atmosphérique. L'augmentation continuelle du CO<sup>2</sup> atmosphérique représente une tendance générale bien documentée. Un modèle qui adoucit cette tendance serait erroné.
 
-Il demeure qu'il importerait de jeter un oeil aux valeurs aberrantes qui peuvent contribuer à la non validité du modèle. Il serait surtout pertinent d'utiliser d'autres types de modèles, comme des modèles dynamiques, qui peuvent tenir compte d'une série de covariables explicatives, puisqu'il semble clair que le modèle ne tient pas compte de certains facteurs. Par exemple, l'augmentation de la température, la déforestation ainsi que les habitudes de consommation pourraient être d'autres facteurs explicatifs liées à la fluctuation du CO2 au fils du temps.
+Il demeure qu'il importerait de jeter un oeil aux valeurs aberrantes qui peuvent contribuer à la non validité du modèle. Il serait surtout pertinent d'utiliser d'autres types de modèles, comme des modèles dynamiques, qui peuvent tenir compte d'une série de covariables explicatives, puisqu'il semble clair que le modèle ne tient pas compte de certains facteurs. Par exemple, l'augmentation de la température, la déforestation ainsi que les habitudes de consommation pourraient être d'autres facteurs explicatifs liées à la fluctuation du CO<sup>2</sup> au fils du temps.

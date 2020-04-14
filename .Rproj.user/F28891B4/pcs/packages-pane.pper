@@ -1,0 +1,7 @@
+{
+    "installOptions" : {
+        "installDependencies" : true,
+        "installFromRepository" : true,
+        "libraryPath" : "E:/Maitrise/Cours/StatistiqueCours/Devoir 5/Devoir5_CMC/packrat/lib/x86_64-w64-mingw32/3.6.2"
+    }
+}
